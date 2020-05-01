@@ -9,9 +9,19 @@ router.get("/posts", async (req, res) => {
 });
 
 router.post("/post", async (req, res) => {
-  const post = new Post({ title: "1", content: "hello" });
+  const post = new Post({ title: req.body.title, content: req.body.content });
   await post.save();
   res.send(post);
+});
+
+router.get("/posts/:id", async (req, res) => {
+  try {
+    const post = await Post.findOne({ _id: req.params.id });
+    res.send(post);
+  } catch (error) {
+    res.status(404);
+    res.send({ error: "Post does not exist." });
+  }
 });
 
 module.exports = router;
