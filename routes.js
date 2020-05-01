@@ -24,4 +24,32 @@ router.get("/posts/:id", async (req, res) => {
   }
 });
 
+router.patch("/posts/:id", async (req, res) => {
+  try {
+    const post = await Post.findOne({ _id: req.params.id });
+    if (req.body.title) {
+      post.title = req.body.title;
+    }
+    if (req.body.content) {
+      post.content = req.body.content;
+    }
+
+    await post.save();
+    res.send(post);
+  } catch (error) {
+    res.status(404);
+    res.send({ error: "Post does not exist." });
+  }
+});
+
+router.delete("/posts/:id", async (req, res) => {
+  try {
+    await Post.deleteOne({ _id: req.params.id });
+    res.status(204).send();
+  } catch (error) {
+    res.status(404);
+    res.send({ error: "Post does not exist." });
+  }
+});
+
 module.exports = router;
