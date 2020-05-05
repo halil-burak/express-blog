@@ -3,9 +3,23 @@ const mongoose = require("mongoose");
 const routes = require("./routes");
 const bodyParser = require("body-parser");
 
+//removed the db url and the password from the code and converted them into env vars
+var env = process.env.NODE_ENV || "development";
+console.log(
+  "mongodb+srv://" +
+    process.env.MONGO_UNAME +
+    ":" +
+    process.env.MONGO_PWD +
+    "@cluster0-dhphg.mongodb.net/test?retryWrites=true&w=majority/acmedb"
+);
+
 mongoose
   .connect(
-    "mongodb+srv://halilburak:test@cluster0-dhphg.mongodb.net/test?retryWrites=true&w=majority/acmedb",
+    "mongodb+srv://" +
+      process.env.MONGO_UNAME +
+      ":" +
+      process.env.MONGO_PWD +
+      "@cluster0-dhphg.mongodb.net/test?retryWrites=true&w=majority/acmedb",
     { useNewUrlParser: true }
   )
   .then(() => {
